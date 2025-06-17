@@ -1,0 +1,142 @@
+.banner {
+    color: SeaGreen;
+    background-color: #4D00FF;
+    margin-top: 75px;
+    text-align: center;
+    padding: 75px 0;
+    font-family: 'Roboto', sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    word-spacing: 0.25em;
+    line-height: 1.4;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+
+#small-gritty {
+    height: 100px;
+    width: 100px;
+}
+
+#gritter {
+    color: #4D00FF;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    font-style:normal;
+    border: 1px solid #0b195c;
+    background-color: #fff;
+    margin-top: 1px solid #0b195c;
+    margin-bottom: 1px solid #0b195c;
+}
+
+
+.bold {
+    font-weight: 800;
+    font-family: 'Roboto', sans-serif;
+}
+
+.button {
+    background-color: rgb(21, 21, 92);
+    color: whitesmoke;
+    border-style: groove;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  word-spacing: 0.25em;
+  line-height: 1.4;
+}
+
+div {
+    font-family: 'Roboto', sans-serif;
+    word-spacing: 0.25em;
+    line-height: 1.4;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 0;
+  background-color: #fff;
+  font-weight: bold;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.05);
+  font-family: 'Roboto', sans-serif;
+  font-size: .77rem;
+}
+
+.header li {
+  display: inline-block;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Footer */
+
+footer {
+  align-items: right;
+  padding: 0 1%;
+  background-color: #4D00FF;
+}
+
+footer .image-container {
+  width: 400px;
+  
+}
+
+footer .content {
+  flex-grow: 2;
+  font-style: italic;
+  color: #fff;
+  line-height: 1.5;
+  font-family: 'Roboto', sans-serif;
+}
+
+footer p {
+  padding-bottom: 1.66rem;
+}
+
+footer .author {
+  color: #aeb5db;
+}
+
+footer em {
+  color: #cfcfcf;
+}
+
+@media only screen and (max-width: 750px) {
+  footer {
+    flex-direction: row;
+    padding: 0 10% 2rem 10%;
+  }
+
+  footer .image-container {
+    height: 300px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+}
+
+.photo {
+  width: 75%;
+  background-color: #4D00FF;
+}
+
+.photo .image-container {
+  overflow: hidden;
+  margin-bottom: 1.11rem;
+}
+
+.photo .image-container img {
+  width: 100%;
+}
+
+.photo .caption {
+  font-style: italic;
+  font-family: 'Roboto';
+}
