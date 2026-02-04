@@ -229,6 +229,35 @@ body.dark-mode .record-card h3 {
   color: #e0e0e0;
 }
 
+.record-details {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #f0f0f0;
+  font-size: 0.8rem;
+}
+
+body.dark-mode .record-details {
+  border-top-color: #333;
+}
+
+.detail-item {
+  margin: 0.4rem 0;
+  color: #666;
+  line-height: 1.3;
+}
+
+body.dark-mode .detail-item {
+  color: #b0b0b0;
+}
+
+.detail-item strong {
+  color: #333;
+  font-weight: 600;
+}
+
+body.dark-mode .detail-item strong {
+  color: #d0d0d0;
+}
+
 .record-card.featured-card {
   border: 3px solid #667eea;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
