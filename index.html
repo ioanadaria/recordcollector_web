@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Record Collection</title>
+  <link rel="stylesheet" href="./css/index.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <nav class="header">
+    <h2 style="margin: 0;">💿 My Records</h2>
+    <ul>
+      <li><a href="#collection" class="nav-link">Collection</a></li>
+      <li><a href="#featured" class="nav-link">Featured</a></li>
+    </ul>
+    <button id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <header class="banner" id="top">
+    <h1>Record Collection</h1>
+    <p>A curated display of vinyl records</p>
+  </header>
+
+  <!-- THE PICK -->
+  <section id="featured" class="section">
+    <h2>The Pick</h2>
+    <div id="featuredRecord" class="featured-record-container">
+      <!-- Featured record will be added via JavaScript -->
+    </div>
+  </section>
+
+  <!-- RECORD COLLECTION -->
+  <section id="collection" class="section">
+    <h2>My Collection</h2>
+    <input type="search" id="recordSearch" placeholder="Search records..." aria-label="Search records" />
+    <div id="recordGallery" class="record-gallery">
+      <!-- Auto-generated via JavaScript -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 Record Collector. <span class="author">Jiggy</span>'s curated vinyl collection.</p>
+    </div>
+  </footer>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
+
+
