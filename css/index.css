@@ -260,6 +260,30 @@ body.dark-mode .banner {
   opacity: 0.85;
 }
 
+.quote {
+  font-size: 2.2rem;
+  font-weight: 600;
+  font-style: italic;
+  margin: 0;
+  opacity: 1;
+  animation: fadeInOut 6s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 #small-gritty {
   max-width: 150px;
   height: auto;
@@ -605,6 +629,10 @@ footer .author {
 
   .banner h1 {
     font-size: 2rem;
+  }
+
+  .quote {
+    font-size: 1.5rem;
   }
 
   .record-gallery {

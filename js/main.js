@@ -61,6 +61,35 @@ darkModeToggle.addEventListener('click', () => {
   }
 });
 
+// ==== Rotating Quotes ====
+const quotes = [
+  "In vinyl we trust",
+  "Collect moments, not things",
+  "Music is life in color",
+  "Spin the soundtrack of your life",
+  "Every record tells a story",
+  "Analog soul, digital world",
+  "Crate digger's paradise",
+  "Turning tables, turning time",
+  "One listen at a time",
+  "Wax collector's dream"
+];
+
+let currentQuoteIndex = 0;
+const quoteElement = document.getElementById('quote');
+
+function rotateQuote() {
+  currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+  quoteElement.style.animation = 'none';
+  // Trigger reflow to restart animation
+  void quoteElement.offsetWidth;
+  quoteElement.style.animation = 'fadeInOut 6s ease-in-out infinite';
+  quoteElement.textContent = quotes[currentQuoteIndex];
+}
+
+// Rotate quote every 6 seconds (matches animation duration)
+setInterval(rotateQuote, 6000);
+
 // ==== Record Collection Data ====
 // Array of records — add your records here with title, image, and optional details
 const records = [
