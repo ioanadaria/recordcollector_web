@@ -64,7 +64,6 @@ darkModeToggle.addEventListener('click', () => {
 // ==== Rotating Quotes ====
 const quotes = [
   "In vinyl we trust",
-  "Collect moments, not things",
   "Music is life in color",
   "Spin the soundtrack of your life",
   "Every record tells a story",
