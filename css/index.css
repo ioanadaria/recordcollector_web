@@ -461,10 +461,10 @@ body.dark-mode .record-card.featured-card {
 
 /* Featured Record Section */
 .featured-section {
-  max-width: 800px;
+  max-width: 600px;
   background: linear-gradient(135deg, #f9f7ff 0%, #f5f0ff 100%);
   border-left: none;
-  padding: 2.5rem 2rem;
+  padding: 2rem 1.5rem;
   margin: 0 auto 3rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.08);
@@ -480,8 +480,8 @@ body.dark-mode .featured-section {
 }
 
 .featured-section h2 {
-  margin-bottom: 2.5rem;
-  font-size: 1.8rem;
+  margin-bottom: 1.8rem;
+  font-size: 1.5rem;
   color: #333;
   letter-spacing: 0.5px;
 }
@@ -494,11 +494,11 @@ body.dark-mode .featured-section h2 {
 .featured-record-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
   justify-items: center;
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
   border: 2px solid #f0e8ff;
@@ -512,7 +512,7 @@ body.dark-mode .featured-record-container {
 
 .featured-record-container img {
   width: 100%;
-  max-width: 320px;
+  max-width: 280px;
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 10px;
@@ -536,9 +536,9 @@ body.dark-mode .featured-record-container img:hover {
 }
 
 .featured-record-content h3 {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: #333;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: 0.3px;
@@ -551,9 +551,9 @@ body.dark-mode .featured-record-content h3 {
 
 .featured-record-content p {
   color: #666;
-  margin-bottom: 1.8rem;
-  line-height: 1.8;
-  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+  font-size: 0.95rem;
   text-align: center;
 }
 
@@ -562,8 +562,8 @@ body.dark-mode .featured-record-content p {
 }
 
 .featured-record-content .record-details {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
   border-top: 2px solid #f0e8ff;
   text-align: center;
 }
@@ -573,8 +573,8 @@ body.dark-mode .featured-record-content .record-details {
 }
 
 .featured-record-content .detail-item {
-  margin-bottom: 0.8rem;
-  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
 }
 
 .featured-record-content .detail-item strong {
