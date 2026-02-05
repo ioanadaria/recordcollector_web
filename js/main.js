@@ -651,6 +651,71 @@ searchInput.addEventListener('input', () => {
   renderRecords(searchInput.value);
 });
 
+// ==== Hamburger Menu Toggle ====
+const menuToggle = document.getElementById('menuToggle');
+const navContainer = document.querySelector('.nav-container');
+
+menuToggle.addEventListener('click', () => {
+  navContainer.classList.toggle('open');
+});
+
+// Close menu when a nav link is clicked
+navContainer.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navContainer.classList.remove('open');
+  });
+});
+
+// ==== Sort Dropdown ====
+const sortDropdown = document.getElementById('sortDropdown');
+let currentSort = 'default';
+
+function sortRecords(sortType) {
+  const sorted = [...records];
+  
+  switch(sortType) {
+    case 'alphabetical':
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    case 'release-year':
+      sorted.sort((a, b) => {
+        const yearA = parseInt(a.released) || 0;
+        const yearB = parseInt(b.released) || 0;
+        return yearB - yearA;
+      });
+      break;
+    case 'release-year-old':
+      sorted.sort((a, b) => {
+        const yearA = parseInt(a.released) || 0;
+        const yearB = parseInt(b.released) || 0;
+        return yearA - yearB;
+      });
+      break;
+    case 'style':
+      sorted.sort((a, b) => {
+        const styleA = a.style || '';
+        const styleB = b.style || '';
+        return styleA.localeCompare(styleB);
+      });
+      break;
+    default:
+      // Keep original order
+      break;
+  }
+  
+  // Replace the records array with sorted version
+  records.length = 0;
+  records.push(...sorted);
+  
+  // Re-render with current search filter if any
+  renderRecords(searchInput.value);
+}
+
+sortDropdown.addEventListener('change', (e) => {
+  currentSort = e.target.value;
+  sortRecords(currentSort);
+});
+
 // ==== Initial render on page load ====
 loadFeaturedRecord();
 renderFeaturedRecord();

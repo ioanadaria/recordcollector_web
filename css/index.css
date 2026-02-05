@@ -123,6 +123,115 @@ body.dark-mode .header a:hover {
   transform: scale(1.1) rotate(20deg);
 }
 
+/* Hamburger Menu */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #333;
+  transition: transform 0.3s;
+}
+
+body.dark-mode .menu-toggle {
+  color: #e0e0e0;
+}
+
+.menu-toggle:hover {
+  transform: scale(1.15);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Sort Dropdown */
+.sort-dropdown {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+  margin-left: 2rem;
+  margin-right: 1rem;
+}
+
+body.dark-mode .sort-dropdown {
+  background-color: #2a2a2a;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+.sort-dropdown:hover {
+  border-color: #667eea;
+}
+
+.sort-dropdown:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    margin-left: 1rem;
+  }
+
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .nav-container {
+    display: none;
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+    order: 3;
+  }
+
+  body.dark-mode .nav-container {
+    border-top-color: #333;
+  }
+
+  .nav-container.open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .header li {
+    padding: 0.5rem 0;
+  }
+
+  .sort-dropdown {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+    order: 4;
+  }
+
+  body.dark-mode .sort-dropdown {
+    border-top-color: #333;
+  }
+}
+
 /* Banner */
 .banner {
   background: linear-gradient(135deg, #f5f7ff 0%, #f0e8ff 50%, #ffe8f5 100%);
@@ -479,9 +588,12 @@ footer .author {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header ul {
-    gap: 1rem;
-    font-size: 0.9rem;
+  .header-title h2 {
+    font-size: 1.1rem;
+  }
+
+  #recordSearch {
+    max-width: 100%;
   }
 
   .banner h1 {
@@ -491,9 +603,5 @@ footer .author {
   .record-gallery {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
-  }
-
-  #recordSearch {
-    max-width: 100%;
   }
 }
