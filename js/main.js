@@ -1,7 +1,8 @@
 // main.js
 
-// ==== Scroll Shadow on Header & Active Nav Link ====
+// ==== Header Scroll Shadow ====
 const header = document.querySelector('.header');
+
 const navLinks = document.querySelectorAll('.header a[data-section]');
 
 window.addEventListener('scroll', () => {
@@ -11,35 +12,18 @@ window.addEventListener('scroll', () => {
   } else {
     header.classList.remove('scrolled');
   }
-
-  // Update active nav link based on scroll position
-  updateActiveNavLink();
 });
 
-function updateActiveNavLink() {
-  const sections = ['featured', 'collection'];
-  let currentSection = sections[0];
+// Remove all nav link highlights on load
+navLinks.forEach(link => link.classList.remove('active'));
 
-  for (const section of sections) {
-    const element = document.getElementById(section);
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      if (rect.top <= 150) {
-        currentSection = section;
-      }
-    }
-  }
-
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('data-section') === currentSection) {
-      link.classList.add('active');
-    }
+// Only highlight nav link when clicked
+navLinks.forEach(link => {
+  link.addEventListener('click', function() {
+    navLinks.forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
   });
-}
-
-// Set initial active link
-updateActiveNavLink();
+});
 
 // ==== Dark Mode Toggle ====
 // Get button and body
