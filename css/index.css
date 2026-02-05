@@ -302,13 +302,11 @@ body.dark-mode .section h2 {
 
 /* Search */
 #recordSearch {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.8rem;
-  margin-bottom: 2rem;
+  padding: 0.5rem 0.75rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  flex: 1;
 }
 
 body.dark-mode #recordSearch {
