@@ -19,9 +19,9 @@ navLinks.forEach(link => link.classList.remove('active'));
 
 // Only highlight nav link when clicked
 navLinks.forEach(link => {
-  link.addEventListener('click', function() {
+  link.addEventListener('click', (event) => {
     navLinks.forEach(l => l.classList.remove('active'));
-    this.classList.add('active');
+    event.currentTarget.classList.add('active');
   });
 });
 
@@ -55,7 +55,8 @@ const quotes = [
   "Crate digger's paradise",
   "Turning tables, turning time",
   "One listen at a time",
-  "Wax collector's dream"
+  "Wax collector's dream",
+  "“If you're going to play it out of tune, then play it out of tune properly.” - Mark E. Smith",
 ];
 
 let currentQuoteIndex = 0;
