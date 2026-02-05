@@ -11,10 +11,13 @@
 
   <!-- HEADER -->
   <nav class="header">
-    <h2 style="margin: 0;">💿 My Records</h2>
+    <div class="header-title">
+      <h2 style="margin: 0;">💿 My Records</h2>
+      <p class="header-tagline">A curated vinyl collection</p>
+    </div>
     <ul>
-      <li><a href="#collection" class="nav-link">Collection</a></li>
-      <li><a href="#featured" class="nav-link">Featured</a></li>
+      <li><a href="#collection" class="nav-link" data-section="collection">Collection</a></li>
+      <li><a href="#featured" class="nav-link" data-section="featured">The Pick</a></li>
     </ul>
     <button id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
   </nav>
@@ -26,8 +29,8 @@
   </header>
 
   <!-- THE PICK -->
-  <section id="featured" class="section">
-    <h2>The Pick</h2>
+  <section id="featured" class="section featured-section">
+    <h2>🎵 The Pick</h2>
     <div id="featuredRecord" class="featured-record-container">
       <!-- Featured record will be added via JavaScript -->
     </div>

@@ -48,6 +48,25 @@ body.dark-mode .header.scrolled {
 .header h2 {
   font-size: 1.3rem;
   letter-spacing: 0.5px;
+  margin-bottom: 0.2rem;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.header-tagline {
+  font-size: 0.8rem;
+  color: #999;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+body.dark-mode .header-tagline {
+  color: #777;
 }
 
 .header ul {
@@ -73,6 +92,17 @@ body.dark-mode .header a {
 .header a:hover {
   color: #667eea;
   border-bottom-color: #667eea;
+}
+
+.header a.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  font-weight: 600;
+}
+
+body.dark-mode .header a.active {
+  color: #a8b8ff;
+  border-bottom-color: #a8b8ff;
 }
 
 body.dark-mode .header a:hover {
@@ -259,48 +289,79 @@ body.dark-mode .detail-item strong {
 }
 
 .record-card.featured-card {
-  border: 3px solid #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  border: 2px solid #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  background: rgba(102, 126, 234, 0.02);
 }
 
 body.dark-mode .record-card.featured-card {
-  box-shadow: 0 4px 12px rgba(168, 184, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(168, 184, 255, 0.2);
+  background: rgba(168, 184, 255, 0.05);
+}
+
+/* Featured Record Section */
+.featured-section {
+  background: transparent;
+  border-left: none;
+  padding: 0 2rem 2rem;
+  margin: 0 auto 3rem;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+}
+
+body.dark-mode .featured-section {
+  background: linear-gradient(135deg, #1f1f3d 0%, #2a1f4d 100%);
+  border-left-color: #a8b8ff;
+  box-shadow: 0 4px 16px rgba(168, 184, 255, 0.1);
+}
+
+.featured-section h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+body.dark-mode .featured-section h2 {
+  color: #333;
 }
 
 /* Featured Record */
 .featured-record-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: center;
   background: white;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 body.dark-mode .featured-record-container {
   background-color: #2a2a2a;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
 .featured-record-container img {
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 body.dark-mode .featured-record-container img {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .featured-record-content h3 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #333;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 body.dark-mode .featured-record-content h3 {
@@ -310,23 +371,74 @@ body.dark-mode .featured-record-content h3 {
 .featured-record-content p {
   color: #666;
   margin-bottom: 1.5rem;
-  line-height: 1.6;
+  line-height: 1.8;
+  font-size: 1.05rem;
 }
 
 body.dark-mode .featured-record-content p {
-  color: #b0b0b0;
+  color: #c0c0c0;
 }
 
 .featured-record-content iframe {
   width: 100%;
   border-radius: 8px;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+}
+
+.clear-pick-btn {
+  background-color: #f0f0f0;
+  color: #666;
+  border: 1px solid #ddd;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: all 0.3s;
+}
+
+.clear-pick-btn:hover {
+  background-color: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+body.dark-mode .clear-pick-btn {
+  background-color: #333;
+  color: #999;
+  border-color: #444;
+}
+
+body.dark-mode .clear-pick-btn:hover {
+  background-color: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.featured-record-empty-message {
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+body.dark-mode .featured-record-empty-message {
+  color: #888;
 }
 
 @media (max-width: 768px) {
   .featured-record-container {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
+  }
+
+  .featured-section {
+    padding: 2rem;
+  }
+
+  .featured-section h2 {
+    font-size: 1.8rem;
   }
 }
 footer {

@@ -1,14 +1,45 @@
 // main.js
 
-// ==== Scroll Shadow on Header ====
+// ==== Scroll Shadow on Header & Active Nav Link ====
 const header = document.querySelector('.header');
+const navLinks = document.querySelectorAll('.header a[data-section]');
+
 window.addEventListener('scroll', () => {
+  // Header shadow
   if (window.scrollY > 0) {
     header.classList.add('scrolled');
   } else {
     header.classList.remove('scrolled');
   }
+
+  // Update active nav link based on scroll position
+  updateActiveNavLink();
 });
+
+function updateActiveNavLink() {
+  const sections = ['featured', 'collection'];
+  let currentSection = sections[0];
+
+  for (const section of sections) {
+    const element = document.getElementById(section);
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      if (rect.top <= 150) {
+        currentSection = section;
+      }
+    }
+  }
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('data-section') === currentSection) {
+      link.classList.add('active');
+    }
+  });
+}
+
+// Set initial active link
+updateActiveNavLink();
 
 // ==== Dark Mode Toggle ====
 // Get button and body
@@ -449,10 +480,9 @@ function renderFeaturedRecord() {
   container.innerHTML = ''; // Clear existing
   
   if (!currentFeaturedRecord) {
-    const emptyMsg = document.createElement('p');
-    emptyMsg.style.textAlign = 'center';
-    emptyMsg.style.color = '#999';
-    emptyMsg.textContent = 'Click a record from your collection to feature it here';
+    const emptyMsg = document.createElement('div');
+    emptyMsg.className = 'featured-record-empty-message';
+    emptyMsg.innerHTML = '<p>✨ Select a record from your collection below to feature it here</p>';
     container.appendChild(emptyMsg);
     return;
   }
@@ -504,6 +534,18 @@ function renderFeaturedRecord() {
     iframe.src = currentFeaturedRecord.youtubeEmbed;
     content.appendChild(iframe);
   }
+
+  // Add clear button
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'clear-pick-btn';
+  clearBtn.textContent = '✕ Clear Pick';
+  clearBtn.addEventListener('click', () => {
+    currentFeaturedRecord = null;
+    localStorage.removeItem('featuredRecord');
+    renderFeaturedRecord();
+    document.querySelectorAll('.record-card').forEach(c => c.classList.remove('featured-card'));
+  });
+  content.appendChild(clearBtn);
 
   wrapper.appendChild(content);
   container.appendChild(wrapper);
