@@ -22,13 +22,6 @@
         <li><a href="#featured" class="nav-link" data-section="featured">The Pick</a></li>
       </ul>
     </div>
-    <select id="sortDropdown" class="sort-dropdown" aria-label="Sort records">
-      <option value="default">Sort by</option>
-      <option value="alphabetical">Alphabetical</option>
-      <option value="release-year">Release Year (Newest)</option>
-      <option value="release-year-old">Release Year (Oldest)</option>
-      <option value="style">Style</option>
-    </select>
     <button id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
   </nav>
 
@@ -49,7 +42,16 @@
   <!-- RECORD COLLECTION -->
   <section id="collection" class="section">
     <h2>My Collection</h2>
-    <input type="search" id="recordSearch" placeholder="Search records..." aria-label="Search records" />
+    <div class="collection-controls">
+      <input type="search" id="recordSearch" placeholder="Search records..." aria-label="Search records" />
+      <select id="sortDropdown" class="sort-dropdown" aria-label="Sort records">
+        <option value="default">Sort by</option>
+        <option value="alphabetical">Alphabetical</option>
+        <option value="release-year">Release Year (Newest)</option>
+        <option value="release-year-old">Release Year (Oldest)</option>
+        <option value="style">Style</option>
+      </select>
+    </div>
     <div id="recordGallery" class="record-gallery">
       <!-- Auto-generated via JavaScript -->
     </div>

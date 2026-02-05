@@ -158,8 +158,6 @@ body.dark-mode .menu-toggle {
   color: #333;
   cursor: pointer;
   transition: border-color 0.3s, background-color 0.3s;
-  margin-left: 2rem;
-  margin-right: 1rem;
 }
 
 body.dark-mode .sort-dropdown {
@@ -176,6 +174,22 @@ body.dark-mode .sort-dropdown {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+/* Collection Controls */
+.collection-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.collection-controls input {
+  flex: 1;
+}
+
+.collection-controls select {
+  min-width: 150px;
 }
 
 /* Mobile Menu */
@@ -215,20 +229,6 @@ body.dark-mode .sort-dropdown {
 
   .header li {
     padding: 0.5rem 0;
-  }
-
-  .sort-dropdown {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e0e0e0;
-    order: 4;
-  }
-
-  body.dark-mode .sort-dropdown {
-    border-top-color: #333;
   }
 }
 
@@ -594,6 +594,15 @@ footer .author {
 
   #recordSearch {
     max-width: 100%;
+  }
+
+  .collection-controls {
+    flex-direction: column;
+  }
+
+  .collection-controls input,
+  .collection-controls select {
+    width: 100%;
   }
 
   .banner h1 {
