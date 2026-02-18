@@ -49,10 +49,13 @@ darkModeToggle.addEventListener('click', () => {
 const quotes = [
   "In vinyl we trust",
   "Music is life in color",
+  "“I'm not a singer—I'm a mouth.” - Johnny Rotten",
   "Spin the soundtrack of your life",
+  "“A good LP is a being, it's not a product. It has a life-force, a personality, and a history, just like you and me.” - Iggy Pop",
   "Every record tells a story",
   "Analog soul, digital world",
   "Crate digger's paradise",
+  "“Record stores… allow you to privately be in this meditational place where you're flipping through the bins… alone, but not alone at the same time.” - Thurston Moore",
   "Turning tables, turning time",
   "One listen at a time",
   "Wax collector's dream",
@@ -215,7 +218,7 @@ const records = [
   {
     title: "The Fall - Interim",
     image: "./images/The-Fall-Interim.jpg",
-    label: "	Let Them Eat Vinyl - LETV574LP",
+    label: "Let Them Eat Vinyl - LETV574LP",
     format: "Vinyl, LP",
     country: "UK",
     released: "2020",
@@ -224,7 +227,7 @@ const records = [
   {
     title: "The Fall - Bury!",
     image: "./images/The-Fall-Bury.jpg",
-    label: "	Domino - RUG 363",
+    label: "Domino - RUG 363",
     format: "Vinyl, 7\", 45 RPM, Record Store Day, Single, Limited Edition",
     country: "UK",
     released: "2010",
@@ -449,11 +452,11 @@ const records = [
   {
     title: "Mark E. Smith - Mark E. Smith Reads The Football Results On Final Score 19.11.05",
     image: "./images/Mark-E-Smith-Final-Score.jpg",
-    label: " Feral Child Records - FERAL CHILD 27",
+    label: "Feral Child Records - FERAL CHILD 27",
     format: "Lathe Cut, 7\", 45 RPM, Shape, Single Sided, Limited Edition, Numbered, Clear",
     country: "UK",
     released: "2024",
-    style: "Spoken Word, Public Broadcast",
+    style: "Spoken Word, Public Broadcast"
   },
   {
     title: "The Foetus All-Nude Revue - Bedrock",
@@ -572,8 +575,11 @@ function renderRecords(filter = '') {
   const gallery = document.getElementById('recordGallery');
   gallery.innerHTML = ''; // Clear existing
 
+  // Use displayRecords if sorted, otherwise use original records
+  const baseRecords = displayRecords.length > 0 ? displayRecords : records;
+
   // Filter records based on search input (case-insensitive)
-  const filtered = records.filter(record =>
+  const filtered = baseRecords.filter(record =>
     record.title.toLowerCase().includes(filter.toLowerCase())
   );
 
@@ -682,30 +688,31 @@ navContainer.querySelectorAll('a').forEach(link => {
 // ==== Sort Dropdown ====
 const sortDropdown = document.getElementById('sortDropdown');
 let currentSort = 'default';
+let displayRecords = [...records]; // Keep a separate copy for display
 
 function sortRecords(sortType) {
-  const sorted = [...records];
+  displayRecords = [...records]; // Always start with original array
   
   switch(sortType) {
     case 'alphabetical':
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      displayRecords.sort((a, b) => a.title.localeCompare(b.title));
       break;
     case 'release-year':
-      sorted.sort((a, b) => {
+      displayRecords.sort((a, b) => {
         const yearA = parseInt(a.released) || 0;
         const yearB = parseInt(b.released) || 0;
         return yearB - yearA;
       });
       break;
     case 'release-year-old':
-      sorted.sort((a, b) => {
+      displayRecords.sort((a, b) => {
         const yearA = parseInt(a.released) || 0;
         const yearB = parseInt(b.released) || 0;
         return yearA - yearB;
       });
       break;
     case 'style':
-      sorted.sort((a, b) => {
+      displayRecords.sort((a, b) => {
         const styleA = a.style || '';
         const styleB = b.style || '';
         return styleA.localeCompare(styleB);
@@ -715,10 +722,6 @@ function sortRecords(sortType) {
       // Keep original order
       break;
   }
-  
-  // Replace the records array with sorted version
-  records.length = 0;
-  records.push(...sorted);
   
   // Re-render with current search filter if any
   renderRecords(searchInput.value);
