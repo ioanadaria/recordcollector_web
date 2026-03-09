@@ -9,7 +9,7 @@ def test_record_gallery_is_visible(app: Page):
 
 def test_records_are_rendered_on_load(app: Page):
     card_count = app.locator(".record-card").count()
-    assert card_count == 44
+    assert card_count == 44  # We know our dataset has 44 records for now
 
 def test_search_input_is_visible(app: Page):
     search = app.locator("#recordSearch")
