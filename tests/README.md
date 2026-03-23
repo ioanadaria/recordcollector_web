@@ -1,25 +1,26 @@
-# RecordCollector Test Suite
+# RecordCollector — Test Suite
 
-Automated test suite for the RecordCollector web application,
-built with Playwright and Pytest.
+Automated test suite for the [RecordCollector web app](../README.md),
+built with Playwright and pytest.
 
 ---
 
 ## What This Suite Covers
 
-| File | Type | Tests |
+| File | Type | What it tests |
 |---|---|---|
 | `test_smoke.py` | Smoke | Page load, element visibility, record count |
 | `test_forms.py` | Functional | Search input, filtering, edge cases |
-| `test_e2e.py` | End-to-End | Full user journeys through the app |
+| `test_e2e.py` | End-to-end | Full user journeys through the app |
 
 ---
 
 ## Tech Stack
 
-- **Python 3.14**
+- **Python 3.13**
 - **Playwright** — browser automation
-- **Pytest** — test runner and assertion framework
+- **pytest** — test runner and assertion framework
+- **pytest-playwright** — Playwright fixtures for pytest
 
 ---
 
@@ -38,43 +39,42 @@ python -m venv .venv
 # Windows
 .venv\Scripts\activate
 
-# Mac/Linux
+# macOS/Linux
 source .venv/bin/activate
 ```
 
 **3. Install dependencies**
 ```bash
 pip install pytest playwright pytest-playwright
-playwright install
+playwright install --with-deps chromium
 ```
 
 ---
 
 ## Running the Tests
 
-**Run the full suite:**
+**Full suite:**
 ```bash
 pytest tests/ -v
 ```
 
-**Run a specific file:**
+**Single file:**
 ```bash
 pytest tests/test_smoke.py -v
 pytest tests/test_forms.py -v
 pytest tests/test_e2e.py -v
 ```
 
-**Run a single test:**
+**Single test:**
 ```bash
 pytest tests/test_smoke.py::test_records_are_rendered_on_load -v
 ```
 
 ---
 
-## Bug Report Generator
+## Auto Bug Report Generator
 
-When a test fails, a markdown bug report is automatically
-generated in `tests/reports/`.
+When a test fails, a Markdown bug report is automatically saved to `tests/reports/`.
 
 Each report includes:
 - Test name and timestamp
@@ -88,21 +88,34 @@ Example output:
 📋 Bug report saved: tests/reports/bug_report_2026-03-09_17-20-32.md
 ```
 
-No manual reporting needed — failures are documented automatically.
+Reports are gitignored — they are generated locally and uploaded as CI artifacts when the pipeline fails.
 
 ---
 
 ## Test Design Approach
 
-Tests are organised in three layers following the
-**testing pyramid** principle:
+Tests follow the **testing pyramid**:
 
-- **Smoke tests** run first and fast — they confirm the app
-  is alive and critical elements exist
-- **Functional tests** verify specific features behave correctly,
-  including edge cases and negative scenarios
-- **End-to-end tests** simulate real user journeys from
-  start to finish
+```
+        /\
+       /  \
+      / E2E \        ← fewer, slower, full user journeys
+     /--------\
+    / Functional\    ← feature-level, includes edge cases
+   /------------\
+  /    Smoke     \   ← fast, runs first, confirms app is alive
+ /______________\
+```
 
-This layered approach means failures are easy to locate —
-if a smoke test fails, there is no point running e2e tests yet.
+- **Smoke tests** run first — if these fail, nothing else is worth running yet
+- **Functional tests** verify specific features including negative and edge case scenarios
+- **End-to-end tests** simulate real user behaviour from start to finish
+
+This layered structure means failures are fast to locate and cheap to fix early.
+
+---
+
+## CI Integration
+
+The full suite runs automatically via GitHub Actions on every push to `main`.
+See [`.github/workflows/tests.yml`](../.github/workflows/tests.yml) for the pipeline configuration.
