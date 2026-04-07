@@ -20,13 +20,13 @@ jobs:
           python-version: '3.13'
 
       - name: Install dependencies
-        run: pip install pytest playwright pytest-playwright
+        run: pip install -r requirements.txt
 
       - name: Install Playwright browsers
         run: playwright install --with-deps chromium
 
       - name: Run tests
-        run: pytest tests/ -v
+        run: pytest
 
       - name: Upload bug reports
         if: failure()

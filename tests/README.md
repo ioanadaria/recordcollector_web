@@ -9,7 +9,7 @@ built with Playwright and pytest.
 
 | File | Type | What it tests |
 |---|---|---|
-| `test_smoke.py` | Smoke | Page load, element visibility, record count |
+| `test_smoke.py` | Smoke | Page load, element visibility, record count, search and sort controls |
 | `test_forms.py` | Functional | Search input, filtering, edge cases |
 | `test_e2e.py` | End-to-end | Full user journeys through the app |
 
@@ -45,7 +45,7 @@ source .venv/bin/activate
 
 **3. Install dependencies**
 ```bash
-pip install pytest playwright pytest-playwright
+pip install -r requirements.txt
 playwright install --with-deps chromium
 ```
 
@@ -55,19 +55,19 @@ playwright install --with-deps chromium
 
 **Full suite:**
 ```bash
-pytest tests/ -v
+pytest
 ```
 
 **Single file:**
 ```bash
-pytest tests/test_smoke.py -v
-pytest tests/test_forms.py -v
-pytest tests/test_e2e.py -v
+pytest tests/test_smoke.py
+pytest tests/test_forms.py
+pytest tests/test_e2e.py
 ```
 
 **Single test:**
 ```bash
-pytest tests/test_smoke.py::test_records_are_rendered_on_load -v
+pytest tests/test_smoke.py::test_records_are_rendered_on_load
 ```
 
 ---

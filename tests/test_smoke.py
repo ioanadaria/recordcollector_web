@@ -20,6 +20,11 @@ def test_search_input_is_visible(app: Page):
     assert search.is_visible()
 
 
+def test_sort_dropdown_is_visible(app: Page):
+    sort = app.locator("#sortDropdown")
+    assert sort.is_visible()
+
+
 def test_featured_section_exists(app: Page):
     featured = app.locator("#featuredRecord")
     assert featured.is_visible()

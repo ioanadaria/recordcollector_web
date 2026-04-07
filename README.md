@@ -51,7 +51,7 @@ source .venv/bin/activate # macOS/Linux
 ```
 
 ```bash
-pip install pytest playwright pytest-playwright
+pip install -r requirements.txt
 playwright install --with-deps chromium
 ```
 
@@ -70,10 +70,10 @@ Then open `http://localhost:8000` in your browser.
 The test suite follows the **testing pyramid** — smoke tests run first, then functional, then end-to-end. See [`tests/README.md`](tests/README.md) for full documentation.
 
 ```bash
-pytest tests/ -v                    # full suite
-pytest tests/test_smoke.py -v       # smoke tests only
-pytest tests/test_e2e.py -v         # end-to-end tests only
-pytest tests/test_forms.py -v       # form and input validation
+pytest                              # full suite
+pytest tests/test_smoke.py          # smoke tests only
+pytest tests/test_e2e.py            # end-to-end tests only
+pytest tests/test_forms.py          # form and input validation
 ```
 
 ### Auto Bug Reports
@@ -106,6 +106,8 @@ recordcollector_web/
 ├── .github/
 │   └── workflows/
 │       └── tests.yml           # CI workflow
+├── pytest.ini                  # pytest configuration
+├── requirements.txt            # Pinned test dependencies
 └── README.md
 ```
 
