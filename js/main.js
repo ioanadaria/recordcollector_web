@@ -711,13 +711,6 @@ function sortRecords(sortType) {
         return yearA - yearB;
       });
       break;
-    case 'style':
-      displayRecords.sort((a, b) => {
-        const styleA = a.style || '';
-        const styleB = b.style || '';
-        return styleA.localeCompare(styleB);
-      });
-      break;
     default:
       // Keep original order
       break;

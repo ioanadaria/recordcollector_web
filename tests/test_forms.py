@@ -98,3 +98,52 @@ def test_search_single_character_returns_results(app: Page):
     app.locator(".record-card").first.wait_for(state="visible")
     # "T" appears in "The Fall", "The Monks" etc — expect multiple results
     assert app.locator(".record-card").count() > 1
+
+
+# ==== Sort tests ====
+
+def test_sort_alphabetical_orders_records(app: Page):
+    app.locator("#sortDropdown").select_option("alphabetical")
+    app.locator(".record-card").first.wait_for(state="visible")
+    titles = app.locator(".record-card h3")
+    first = titles.nth(0).text_content().lower()
+    second = titles.nth(1).text_content().lower()
+    assert first <= second
+
+
+def test_sort_release_year_newest_first(app: Page):
+    app.locator("#sortDropdown").select_option("release-year")
+    app.locator(".record-card").first.wait_for(state="visible")
+
+    def get_year(card_index):
+        details = app.locator(".record-card").nth(card_index).locator(".detail-item")
+        for i in range(details.count()):
+            text = details.nth(i).text_content()
+            if "Released:" in text:
+                return int(text.split("Released:")[1].strip())
+        return 0
+
+    assert get_year(0) >= get_year(1)
+
+
+def test_sort_release_year_oldest_first(app: Page):
+    app.locator("#sortDropdown").select_option("release-year-old")
+    app.locator(".record-card").first.wait_for(state="visible")
+
+    def get_year(card_index):
+        details = app.locator(".record-card").nth(card_index).locator(".detail-item")
+        for i in range(details.count()):
+            text = details.nth(i).text_content()
+            if "Released:" in text:
+                return int(text.split("Released:")[1].strip())
+        return 0
+
+    assert get_year(0) <= get_year(1)
+
+
+def test_sort_default_shows_all_records(app: Page):
+    total = app.locator(".record-card").count()
+    app.locator("#sortDropdown").select_option("alphabetical")
+    app.locator("#sortDropdown").select_option("default")
+    app.locator(".record-card").nth(total - 1).wait_for(state="visible")
+    assert app.locator(".record-card").count() == total
