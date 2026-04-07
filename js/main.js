@@ -66,15 +66,17 @@ function createInlineSVGPlaceholder(record) {
   const album = parts[1] || parts[0] || 'Album';
   
   // Create a vinyl record graphic
+  // gradientId must be stored once so the <defs> id and fill url() reference match
+  const gradientId = `grad-${Math.random().toString(36).slice(2)}`;
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
       <defs>
-        <linearGradient id="grad-${Math.random()}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
           <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
         </linearGradient>
       </defs>
-      <rect width="400" height="400" fill="url(#grad-${Math.random()})"/>
+      <rect width="400" height="400" fill="url(#${gradientId})"/>
       <circle cx="200" cy="200" r="120" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
       <circle cx="200" cy="200" r="80" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
       <circle cx="200" cy="200" r="40" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
@@ -129,6 +131,26 @@ function safeRemoveLocalStorage(key) {
     console.warn(`localStorage.removeItem failed for key "${key}":`, e.message);
     return false;
   }
+}
+
+// ==== Utility Functions ====
+
+/**
+ * Debounce function - delays execution until after wait period of inactivity
+ * @param {Function} func - Function to debounce
+ * @param {number} wait - Milliseconds to wait
+ * @returns {Function} - Debounced function
+ */
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
 
 // ==== Header Scroll Shadow ====
@@ -783,8 +805,14 @@ function renderRecords(filter = '') {
 
 // ==== Search input handler ====
 const searchInput = document.getElementById('recordSearch');
-searchInput.addEventListener('input', () => {
-  renderRecords(searchInput.value);
+
+// Debounced search - waits 300ms after user stops typing
+const debouncedSearch = debounce((value) => {
+  renderRecords(value);
+}, 300);
+
+searchInput.addEventListener('input', (e) => {
+  debouncedSearch(e.target.value);
 });
 
 // ==== Hamburger Menu Toggle ====
