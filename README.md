@@ -12,7 +12,7 @@ A responsive vinyl record collection app with a full automated test suite, CI/CD
 
 - **Record Gallery** — browse 44+ vinyl records with titles, artists, and release years
 - **Search & Sort** — filter by title or artist, sort alphabetically or by year
-- **Featured Pick** — rotating featured record with curated selections
+- **Featured Pick** — click any record card to feature it; selection persists across sessions via localStorage
 - **Dark Mode** — toggleable theme with preference persistence via localStorage
 - **Responsive Design** — mobile-friendly layout across all screen sizes
 - **Vinyl Quotes** — rotating quotes throughout the UI
@@ -22,7 +22,7 @@ A responsive vinyl record collection app with a full automated test suite, CI/CD
 ## Tech Stack
 
 | Layer | Tools |
-|---|---|
+| --- | --- |
 | Frontend | HTML5, CSS3, Vanilla JavaScript |
 | Testing | Playwright (E2E + functional), pytest (test runner) |
 | CI/CD | GitHub Actions — runs full suite on every push to `main` |
@@ -80,7 +80,7 @@ pytest tests/test_forms.py          # form and input validation
 
 When any test fails, a Markdown bug report is automatically generated in `tests/reports/` with the test name, timestamp, error message, reproduction steps, and environment details — no manual reporting needed.
 
-```
+```text
 📋 Bug report saved: tests/reports/bug_report_2026-03-09_17-20-32.md
 ```
 
@@ -88,7 +88,7 @@ When any test fails, a Markdown bug report is automatically generated in `tests/
 
 ## Project Structure
 
-```
+```text
 recordcollector_web/
 ├── index.html                  # Main application page
 ├── css/
@@ -131,5 +131,3 @@ GitHub Actions runs on every push to `main`:
 - [ ] Advanced filtering and tagging
 - [ ] Data persistence with a database
 - [ ] Social features (sharing, recommendations)
-
-

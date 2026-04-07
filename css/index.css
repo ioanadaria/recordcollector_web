@@ -404,6 +404,24 @@ body.dark-mode .record-card:hover {
   aspect-ratio: 1;
   object-fit: cover;
   display: block;
+  transition: opacity 0.3s ease;
+}
+
+.record-card img.loading {
+  opacity: 0.6;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+}
+
+body.dark-mode .record-card img.loading {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+}
+
+.record-card img.placeholder-image {
+  background-color: #f5f5f5;
+}
+
+body.dark-mode .record-card img.placeholder-image {
+  background-color: #2a2a2a;
 }
 
 .record-card h3 {

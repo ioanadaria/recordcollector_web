@@ -1,5 +1,136 @@
 // main.js
 
+// ==== Image Handling Utilities ====
+// These functions ensure images always display gracefully, even if they fail to load
+
+/**
+ * Generates a placeholder image URL for a record
+ * Uses a color based on the record title for visual variety
+ */
+function getPlaceholderImage(record) {
+  // Array of colors - each record gets a unique one based on its title
+  const colors = [
+    '#667eea', '#764ba2', '#f093fb', '#4facfe',
+    '#43e97b', '#fa709a', '#fee140', '#30cfd0'
+  ];
+  
+  // Generate a consistent color for this record (same record = same color)
+  const hash = record.title.split('').reduce((acc, char) => {
+    return char.charCodeAt(0) + ((acc << 5) - acc);
+  }, 0);
+  
+  const colorIndex = Math.abs(hash) % colors.length;
+  const color = colors[colorIndex];
+  
+  // Extract artist and album for display on placeholder
+  const parts = record.title.split(' - ');
+  const artist = encodeURIComponent(parts[0] || 'Unknown Artist');
+  const album = encodeURIComponent(parts[1] || parts[0] || 'Unknown Album');
+  
+  // Use placehold.co service to generate a nice placeholder
+  return `https://placehold.co/400x400/${color.replace('#', '')}/white?text=${artist}%0A${album}&font=roboto`;
+}
+
+/**
+ * Sets up image error handling for a record card image element
+ * This is the magic that makes images always work
+ */
+function setupImageErrorHandling(img, record) {
+  img.onerror = () => {
+    // Try placeholder if original image fails
+    if (!img.src.includes('placehold.co')) {
+      console.warn(`Image failed to load: ${img.src}, using placeholder`);
+      img.src = getPlaceholderImage(record);
+      img.classList.add('placeholder-image');
+    } else {
+      // Even placeholder failed (no internet?), use inline SVG
+      console.error(`Placeholder also failed for: ${record.title}`);
+      img.src = createInlineSVGPlaceholder(record);
+    }
+  };
+  
+  // Add loading class for smooth transitions
+  img.classList.add('loading');
+  img.onload = () => {
+    img.classList.remove('loading');
+  };
+}
+
+/**
+ * Creates an inline SVG placeholder as last resort
+ * This always works, even offline
+ */
+function createInlineSVGPlaceholder(record) {
+  const parts = record.title.split(' - ');
+  const artist = parts[0] || 'Unknown';
+  const album = parts[1] || parts[0] || 'Album';
+  
+  // Create a vinyl record graphic
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+      <defs>
+        <linearGradient id="grad-${Math.random()}" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="400" fill="url(#grad-${Math.random()})"/>
+      <circle cx="200" cy="200" r="120" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+      <circle cx="200" cy="200" r="80" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+      <circle cx="200" cy="200" r="40" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+      <circle cx="200" cy="200" r="15" fill="white" opacity="0.8"/>
+      <text x="200" y="320" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.9">${artist.substring(0, 20)}</text>
+      <text x="200" y="345" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" opacity="0.7">${album.substring(0, 25)}</text>
+    </svg>
+  `;
+  
+  return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
+// ==== Safe localStorage Utilities ====
+// Prevents crashes in private browsing or when localStorage is disabled
+
+/**
+ * Safely get an item from localStorage
+ * Returns null if localStorage is unavailable or key doesn't exist
+ */
+function safeGetLocalStorage(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    console.warn(`localStorage.getItem failed for key "${key}":`, e.message);
+    return null;
+  }
+}
+
+/**
+ * Safely set an item in localStorage
+ * Returns true on success, false on failure
+ */
+function safeSetLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch (e) {
+    console.warn(`localStorage.setItem failed for key "${key}":`, e.message);
+    return false;
+  }
+}
+
+/**
+ * Safely remove an item from localStorage
+ * Returns true on success, false on failure
+ */
+function safeRemoveLocalStorage(key) {
+  try {
+    localStorage.removeItem(key);
+    return true;
+  } catch (e) {
+    console.warn(`localStorage.removeItem failed for key "${key}":`, e.message);
+    return false;
+  }
+}
+
 // ==== Header Scroll Shadow ====
 const header = document.querySelector('.header');
 
@@ -31,7 +162,7 @@ const darkModeToggle = document.getElementById('darkModeToggle');
 const body = document.body;
 
 // Load saved mode from localStorage
-if (localStorage.getItem('darkMode') === 'enabled') {
+if (safeGetLocalStorage('darkMode') === 'enabled') {
   body.classList.add('dark-mode');
 }
 
@@ -39,9 +170,9 @@ if (localStorage.getItem('darkMode') === 'enabled') {
 darkModeToggle.addEventListener('click', () => {
   body.classList.toggle('dark-mode');
   if (body.classList.contains('dark-mode')) {
-    localStorage.setItem('darkMode', 'enabled');
+    safeSetLocalStorage('darkMode', 'enabled');
   } else {
-    localStorage.setItem('darkMode', 'disabled');
+    safeSetLocalStorage('darkMode', 'disabled');
   }
 });
 
@@ -484,9 +615,14 @@ let currentFeaturedRecord = null;
 
 // Load featured record from localStorage on page load
 function loadFeaturedRecord() {
-  const saved = localStorage.getItem('featuredRecord');
+  const saved = safeGetLocalStorage('featuredRecord');
   if (saved) {
-    currentFeaturedRecord = JSON.parse(saved);
+    try {
+      currentFeaturedRecord = JSON.parse(saved);
+    } catch (e) {
+      console.warn('Failed to parse saved featured record:', e.message);
+      currentFeaturedRecord = null;
+    }
   }
 }
 
@@ -510,6 +646,8 @@ function renderFeaturedRecord() {
   const img = document.createElement('img');
   img.src = currentFeaturedRecord.image;
   img.alt = currentFeaturedRecord.title + ' cover';
+  img.loading = 'lazy'; // Lazy load images for performance
+  setupImageErrorHandling(img, currentFeaturedRecord);
   wrapper.appendChild(img);
 
   // Content
@@ -528,36 +666,13 @@ function renderFeaturedRecord() {
     content.appendChild(p);
   }
 
-  // Embed (Spotify or YouTube)
-  if (currentFeaturedRecord.spotifyEmbed) {
-    const iframe = document.createElement('iframe');
-    iframe.style.borderRadius = '8px';
-    iframe.width = '100%';
-    iframe.height = '352';
-    iframe.frameBorder = '0';
-    iframe.allowFullscreen = true;
-    iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-    iframe.loading = 'lazy';
-    iframe.src = currentFeaturedRecord.spotifyEmbed;
-    content.appendChild(iframe);
-  } else if (currentFeaturedRecord.youtubeEmbed) {
-    const iframe = document.createElement('iframe');
-    iframe.width = '100%';
-    iframe.height = '315';
-    iframe.frameBorder = '0';
-    iframe.allowFullscreen = true;
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-    iframe.src = currentFeaturedRecord.youtubeEmbed;
-    content.appendChild(iframe);
-  }
-
   // Add clear button
   const clearBtn = document.createElement('button');
   clearBtn.className = 'clear-pick-btn';
   clearBtn.textContent = '✕ Clear Pick';
   clearBtn.addEventListener('click', () => {
     currentFeaturedRecord = null;
-    localStorage.removeItem('featuredRecord');
+    safeRemoveLocalStorage('featuredRecord');
     renderFeaturedRecord();
     document.querySelectorAll('.record-card').forEach(c => c.classList.remove('featured-card'));
   });
@@ -598,6 +713,8 @@ function renderRecords(filter = '') {
     const img = document.createElement('img');
     img.src = record.image;
     img.alt = record.title + ' cover';
+    img.loading = 'lazy';
+    setupImageErrorHandling(img, record);
     card.appendChild(img);
 
     // Title
@@ -645,7 +762,7 @@ function renderRecords(filter = '') {
       details.appendChild(styleEl);
     }
 
-    if (Object.keys(details.children).length > 0) {
+    if (details.children.length > 0) {
       card.appendChild(details);
     }
 
@@ -653,7 +770,7 @@ function renderRecords(filter = '') {
     card.addEventListener('click', () => {
       currentFeaturedRecord = record;
       // Save to localStorage so it persists
-      localStorage.setItem('featuredRecord', JSON.stringify(record));
+      safeSetLocalStorage('featuredRecord', JSON.stringify(record));
       renderFeaturedRecord();
       // Update card styling to show it's featured
       document.querySelectorAll('.record-card').forEach(c => c.classList.remove('featured-card'));
