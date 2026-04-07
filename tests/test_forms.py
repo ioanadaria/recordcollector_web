@@ -33,12 +33,10 @@ def test_search_clear_restores_all_records(app: Page):
     total = app.locator(".record-card").count()
 
     search.fill("Dragnet")
-    app.locator(".record-card").first.wait_for(state="visible")
-    assert app.locator(".record-card").count() < total
+    expect(app.locator(".record-card")).to_have_count(1)
 
     search.fill("")
-    app.locator(".record-card").nth(total - 1).wait_for(state="visible")
-    assert app.locator(".record-card").count() == total
+    expect(app.locator(".record-card")).to_have_count(total)
 
 
 def test_search_whitespace_only_returns_no_results(app: Page):

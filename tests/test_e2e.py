@@ -102,13 +102,11 @@ def test_clear_search_restores_full_gallery(app: Page):
     total = app.locator(".record-card").count()
 
     app.locator("#recordSearch").fill("Dragnet")
-    app.locator(".record-card").first.wait_for(state="visible")
-    assert app.locator(".record-card").count() < total
+    expect(app.locator(".record-card")).to_have_count(1)
 
     # Clear the input
     app.locator("#recordSearch").fill("")
-    app.locator(".record-card").nth(total - 1).wait_for(state="visible")
-    assert app.locator(".record-card").count() == total
+    expect(app.locator(".record-card")).to_have_count(total)
 
 
 def test_dark_mode_toggles_on_and_off(app: Page):
