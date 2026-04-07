@@ -721,7 +721,7 @@ function renderRecords(filter = '') {
   );
 
   if (filtered.length === 0) {
-    gallery.innerHTML = '<p>No records found.</p>';
+    gallery.innerHTML = '<p data-testid="no-results">No records found.</p>';
     return;
   }
 

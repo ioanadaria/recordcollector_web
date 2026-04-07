@@ -1,11 +1,10 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
 
 def test_search_full_title_returns_one_result(app: Page):
     search = app.locator("#recordSearch")
     search.fill("The Fall - Dragnet")
-    app.locator(".record-card").first.wait_for(state="visible")
-    assert app.locator(".record-card").count() == 1
+    expect(app.locator(".record-card")).to_have_count(1)
 
 
 def test_search_partial_title_returns_multiple_results(app: Page):
@@ -18,7 +17,7 @@ def test_search_partial_title_returns_multiple_results(app: Page):
 def test_search_no_match_shows_message(app: Page):
     search = app.locator("#recordSearch")
     search.fill("zzznomatchzzz")
-    no_results = app.locator("#recordGallery p")
+    no_results = app.locator("[data-testid='no-results']")
     no_results.wait_for(state="visible")
     assert no_results.text_content() == "No records found."
 
@@ -26,8 +25,7 @@ def test_search_no_match_shows_message(app: Page):
 def test_search_is_case_insensitive(app: Page):
     search = app.locator("#recordSearch")
     search.fill("THE FALL - DRAGNET")
-    app.locator(".record-card").first.wait_for(state="visible")
-    assert app.locator(".record-card").count() == 1
+    expect(app.locator(".record-card")).to_have_count(1)
 
 
 def test_search_clear_restores_all_records(app: Page):
@@ -52,7 +50,7 @@ def test_search_whitespace_only_returns_no_results(app: Page):
     """
     search = app.locator("#recordSearch")
     search.fill("   ")
-    no_results = app.locator("#recordGallery p")
+    no_results = app.locator("[data-testid='no-results']")
     no_results.wait_for(state="visible")
     assert app.locator(".record-card").count() == 0
 
@@ -70,7 +68,7 @@ def test_search_special_characters_does_not_crash(app: Page):
     assert app.locator("#recordGallery").is_visible()
 
     # No-results message should appear gracefully
-    no_results = app.locator("#recordGallery p")
+    no_results = app.locator("[data-testid='no-results']")
     no_results.wait_for(state="visible")
     assert no_results.text_content() == "No records found."
 
@@ -83,7 +81,7 @@ def test_search_by_year_does_not_match_records(app: Page):
     """
     search = app.locator("#recordSearch")
     search.fill("1980")
-    no_results = app.locator("#recordGallery p")
+    no_results = app.locator("[data-testid='no-results']")
     no_results.wait_for(state="visible")
     assert app.locator(".record-card").count() == 0
 

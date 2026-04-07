@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
 
 # ─── helpers ────────────────────────────────────────────────────────────────
@@ -43,8 +43,7 @@ def test_search_then_feature_record(app: Page):
     """Searching and clicking a result features the correct record."""
     # "Dragnet" — known record in the dataset, expected to return exactly 1 result
     app.locator("#recordSearch").fill("Dragnet")
-    app.locator(".record-card").first.wait_for(state="visible")
-    assert app.locator(".record-card").count() == 1
+    expect(app.locator(".record-card")).to_have_count(1)
 
     app.locator(".record-card").first.click()
 
@@ -90,7 +89,7 @@ def test_search_no_results(app: Page):
     app.locator("#recordSearch").fill("zzz_no_such_record_zzz")
 
     # No cards should be visible
-    no_results = app.locator("#recordGallery p")
+    no_results = app.locator("[data-testid='no-results']")
     no_results.wait_for(state="visible")
     assert app.locator(".record-card").count() == 0
 
@@ -142,8 +141,7 @@ def test_full_user_journey(app: Page):
     # Search: filter down to one result
     # "Dragnet" — known record in the dataset
     app.locator("#recordSearch").fill("Dragnet")
-    app.locator(".record-card").first.wait_for(state="visible")
-    assert app.locator(".record-card").count() == 1
+    expect(app.locator(".record-card")).to_have_count(1)
 
     # Feature: click the result
     app.locator(".record-card").first.click()
