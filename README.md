@@ -10,12 +10,15 @@ A responsive vinyl record collection app with a full automated test suite, CI/CD
 
 ## Features
 
-- **Record Gallery** — browse 44+ vinyl records with titles, artists, and release years
-- **Search & Sort** — filter by title or artist, sort alphabetically or by year
-- **Featured Pick** — click any record card to feature it; selection persists across sessions via localStorage
-- **Dark Mode** — toggleable theme with preference persistence via localStorage
-- **Responsive Design** — mobile-friendly layout across all screen sizes
-- **Vinyl Quotes** — rotating quotes throughout the UI
+- **Record Gallery** — browse 50+ vinyl records with titles, labels, formats, countries, release years, and styles
+- **Search & Sort** — filter by title or artist, sort alphabetically or by release year (newest/oldest)
+- **Format & Era Filters** — filter chips for format (LP, 7", 12", Box Set) and era (Pre-1985, 1985–2000, 2000+); filters combine with search and sort
+- **Collection Stats Bar** — live summary showing total records, artist count, year range, and formats present
+- **The Pick** — click any record card to feature it in a landscape card showing full details; selection persists via localStorage
+- **Random Pick** — "🎲 Random Pick" button instantly picks a random record from the collection and scrolls to The Pick section
+- **Dark Mode** — toggleable warm-brown theme with preference persistence via localStorage
+- **Responsive Design** — mobile-friendly layout; The Pick card switches from landscape to portrait on narrow screens
+- **Vinyl Quotes** — rotating quotes in the hero banner
 
 ---
 
@@ -92,9 +95,14 @@ When any test fails, a Markdown bug report is automatically generated in `tests/
 recordcollector_web/
 ├── index.html                  # Main application page
 ├── css/
-│   └── index.css               # Styling and dark mode
+│   └── index.css               # Styling, dark mode, responsive layout
 ├── js/
-│   └── main.js                 # Application logic
+│   └── main.js                 # Application logic, record data, filters
+├── images/                     # Album cover art (50 JPGs)
+│   ├── The-Fall-*.jpg
+│   ├── Can-*.jpg
+│   ├── Foetus-*.jpg
+│   └── ...
 ├── tests/
 │   ├── README.md               # Test suite documentation
 │   ├── conftest.py             # Fixtures and configuration
@@ -105,7 +113,8 @@ recordcollector_web/
 │   └── reports/                # Generated reports (gitignored)
 ├── .github/
 │   └── workflows/
-│       └── tests.yml           # CI workflow
+│       ├── tests.yml           # CI workflow — runs test suite on push
+│       └── deploy.yml          # Deploy workflow
 ├── pytest.ini                  # pytest configuration
 ├── requirements.txt            # Pinned test dependencies
 └── README.md
@@ -126,8 +135,12 @@ GitHub Actions runs on every push to `main`:
 
 ## Roadmap
 
+- [ ] Wantlist section — a separate wishlist of records to hunt for
+- [ ] Collection timeline — visual year-by-year breakdown of releases
+- [ ] Artist breakdown — per-artist record count and stats
+- [ ] Discogs deep-link — link each record card directly to its Discogs page
+- [ ] "Now Listening" status — pin a currently playing record with a visual indicator
 - [ ] Backend API for dynamic record data
 - [ ] User authentication and personal collections
-- [ ] Advanced filtering and tagging
 - [ ] Data persistence with a database
 - [ ] Social features (sharing, recommendations)
