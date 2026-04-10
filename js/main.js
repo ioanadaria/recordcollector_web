@@ -628,6 +628,114 @@ const records = [
     country: "USA",
     released: "2025",
     style: "Industrial, Experimental Rock, Noise Rock"
+  },
+  {
+    title: "Essential Logic - Beat Rhythm News",
+    image: "./images/Essential-Logic-Beat.jpg",
+    label: "Rough Trade - ROUGH 5",
+    format: "Vinyl, LP, Album",
+    country: "UK",
+    released: "1979",
+    style: "New Wave, Post-Punk, Experimental Rock"
+  },
+  {
+    title: "Sunn O))) - Sunn O)))",
+    image: "./images/Sunn-O-Sunn-O.jpg",
+    label: "SubPop - SP1685",
+    format: "2 x Vinyl, LP, Album, Limited Edition, Stereo, Pearl Flip",
+    country: "Europe",
+    released: "2026",
+    style: "Doom Metal, Drone, Noise"
+  },
+  {
+    title: "Can - Out Of Reach",
+    image: "./images/Can-Out-Of-Reach.jpg",
+    label: "Harvest, EMI",
+    format: "Vinyl, LP, Album",
+    country: "Germany",
+    released: "1978",
+    style: "Krautrock, Experimental Rock"
+  },
+  {
+    title: "Can - Soon Over Babaluma",
+    image: "./images/Can-Soon-Over-Babaluma.jpg",
+    label: "Spoon Records",
+    format: "Vinyl, LP, Album, Reissue, Remastered, 180g",
+    country: "Germany",
+    released: "2014",
+    style: "Krautrock, Jazz-Rock, Experimental Rock"
+  },
+  {
+    title: "Rohstoff (The Essential Lost Tapes 1968-1976) 2-LP Set",
+    image: "./images/Can-Rohstoff.jpg",
+    label: "Not On Label (Can)",
+    format: "2 x Vinyl, LP, Compilation, Unofficial Release",
+    country: "Germany",
+    released: "2012",
+    style: "Krautrock, Experimental Rock, Avant-Garde"
+  },
+  {
+    title: "Can - Spoon",
+    image: "./images/Can-Spoon.jpg",
+    label: "United Artists Records",
+    format: "Vinyl, 7\", 45 RPM, Single, Stereo",
+    country: "Germany",
+    released: "1971",
+    style: "Krautrock, Theme, Psychedelic Rock, Avant-Garde"
+  },
+  {
+    title: "Martin Rev - Martin Rev",
+    image: "./images/Martin-Rev-Martin-Rev.jpg",
+    label: "Infidelity",
+    format: "Vinyl, LP, Album",
+    country: "USA",
+    released: "1980",
+    style: "Electronic, Synth-Pop, Experimental"
+  },
+  {
+    title: "Prostitute - Attempted Martyr",
+    image: "./images/Prostitute-Attempted-Martyr.jpg",
+    label: "Mute Records - STUMM 521",
+    format: "Vinyl, LP, Album, Limited Edition, Panic Alarm Red",
+    country: "Worldwide",
+    released: "2026",
+    style: "Post-Punk, Noise Rock, Experimental Rock"
+  },
+  {
+    title: "James White & The Blacks - Sax Maniac",
+    image: "./images/James-White-The-Blacks-Sax-Maniac.jpg",
+    label: "Animal Records",
+    format: "Vinyl, LP, Album",
+    country: "Europe",
+    released: "1982",
+    style: "Free Funk, Experimental"
+  },
+  {
+    title: "Lydia Lunch, Marc Hurtado - My Lover The Killer",
+    image: "./images/Lydia-Lunch-Marc-Hurtado-My-Lover.jpg",
+    label: "Munster Records",
+    format: "2 x Vinyl, LP, Album, Record Store Day",
+    country: "Europe",
+    released: "2016",
+    style: "Avant-Garde, Experimental, No Wave"
+  },
+  {
+    title: "The Assembly - Never Never",
+    image: "./images/The-Assembly-Never.jpg",
+    label: "Mute Records",
+    format: "Vinyl, 7\", 45 RPM, Single, Stereo",
+    country: "UK",
+    released: "1983",
+    style: "New Wave, Synth-Pop"
+  },
+  {
+    title: "Chrome - Alien Soundtracks",
+    image: "./images/Chrome-Alien-Soundtracks.jpg",
+    label: "Cleopatra",
+    format: "Vinyl, LP, Album, Limited Edition, Green Translucent",
+    country: "USA",
+    released: "2007",
+    style: "Punk, Psychedelic Rock, Experimental Rock"
   }
 ];
 
@@ -649,10 +757,11 @@ function loadFeaturedRecord() {
 }
 
 // ==== Render Featured Record Function ====
-function renderFeaturedRecord() {
+// scrollToPick: if true, smoothly scrolls The Pick section into view after rendering
+function renderFeaturedRecord(scrollToPick = false) {
   const container = document.getElementById('featuredRecord');
-  container.innerHTML = ''; // Clear existing
-  
+  container.innerHTML = '';
+
   if (!currentFeaturedRecord) {
     const emptyMsg = document.createElement('div');
     emptyMsg.className = 'featured-record-empty-message';
@@ -661,34 +770,41 @@ function renderFeaturedRecord() {
     return;
   }
 
-  const wrapper = document.createElement('div');
-  wrapper.className = 'featured-record-container';
-
-  // Image
+  // Image — written directly into container, no extra wrapper needed
   const img = document.createElement('img');
   img.src = currentFeaturedRecord.image;
   img.alt = currentFeaturedRecord.title + ' cover';
-  img.loading = 'lazy'; // Lazy load images for performance
   setupImageErrorHandling(img, currentFeaturedRecord);
-  wrapper.appendChild(img);
+  container.appendChild(img);
 
-  // Content
+  // Content block
   const content = document.createElement('div');
   content.className = 'featured-record-content';
 
-  // Title
   const h3 = document.createElement('h3');
   h3.textContent = currentFeaturedRecord.title;
   content.appendChild(h3);
 
-  // Description (if available)
-  if (currentFeaturedRecord.description) {
-    const p = document.createElement('p');
-    p.textContent = currentFeaturedRecord.description;
-    content.appendChild(p);
-  }
+  // Record details (label, format, released, style)
+  const details = document.createElement('div');
+  details.className = 'record-details';
+  const detailFields = [
+    { key: 'label', label: 'Label' },
+    { key: 'format', label: 'Format' },
+    { key: 'released', label: 'Released' },
+    { key: 'country', label: 'Country' },
+    { key: 'style', label: 'Style' },
+  ];
+  detailFields.forEach(({ key, label }) => {
+    if (currentFeaturedRecord[key]) {
+      const p = document.createElement('p');
+      p.className = 'detail-item';
+      p.innerHTML = `<strong>${label}:</strong> ${currentFeaturedRecord[key]}`;
+      details.appendChild(p);
+    }
+  });
+  if (details.children.length > 0) content.appendChild(details);
 
-  // Add clear button
   const clearBtn = document.createElement('button');
   clearBtn.className = 'clear-pick-btn';
   clearBtn.textContent = '✕ Clear Pick';
@@ -700,11 +816,11 @@ function renderFeaturedRecord() {
   });
   content.appendChild(clearBtn);
 
-  wrapper.appendChild(content);
-  container.appendChild(wrapper);
-  
-  // Scroll to featured section
-  document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
+  container.appendChild(content);
+
+  if (scrollToPick) {
+    document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
+  }
 }
 
 // ==== Render Records Function ====
@@ -715,10 +831,38 @@ function renderRecords(filter = '') {
   // Use displayRecords if sorted, otherwise use original records
   const baseRecords = displayRecords.length > 0 ? displayRecords : records;
 
-  // Filter records based on search input (case-insensitive)
-  const filtered = baseRecords.filter(record =>
+  // Apply search filter
+  let filtered = baseRecords.filter(record =>
     record.title.toLowerCase().includes(filter.toLowerCase())
   );
+
+  // Apply format filter
+  if (activeFormatFilter !== 'all') {
+    filtered = filtered.filter(record => {
+      const fmt = record.format || '';
+      switch (activeFormatFilter) {
+        case 'lp':       return fmt.includes('LP') && !fmt.includes('Box Set');
+        case '7"':       return fmt.includes('7"');
+        case '12"':      return fmt.includes('12"');
+        case 'box-set':  return fmt.includes('Box Set');
+        default:         return true;
+      }
+    });
+  }
+
+  // Apply decade filter
+  if (activeDecadeFilter !== 'all') {
+    filtered = filtered.filter(record => {
+      const year = parseInt(record.released);
+      if (isNaN(year)) return false;
+      switch (activeDecadeFilter) {
+        case 'pre-1985':   return year < 1985;
+        case '1985-2000':  return year >= 1985 && year <= 2000;
+        case '2000+':      return year > 2000;
+        default:           return true;
+      }
+    });
+  }
 
   if (filtered.length === 0) {
     gallery.innerHTML = '<p data-testid="no-results">No records found.</p>';
@@ -791,10 +935,8 @@ function renderRecords(filter = '') {
     // Click handler to feature the record
     card.addEventListener('click', () => {
       currentFeaturedRecord = record;
-      // Save to localStorage so it persists
       safeSetLocalStorage('featuredRecord', JSON.stringify(record));
-      renderFeaturedRecord();
-      // Update card styling to show it's featured
+      renderFeaturedRecord(true); // scroll to The Pick
       document.querySelectorAll('.record-card').forEach(c => c.classList.remove('featured-card'));
       card.classList.add('featured-card');
     });
@@ -870,7 +1012,138 @@ sortDropdown.addEventListener('change', (e) => {
   sortRecords(currentSort);
 });
 
+// ==== Filter State ====
+let activeFormatFilter = 'all';
+let activeDecadeFilter = 'all';
+
+// ==== Collection Stats Bar ====
+function renderCollectionStats() {
+  const statsEl = document.getElementById('collectionStats');
+  if (!statsEl) return;
+
+  const artists = new Set(records.map(r => r.title.split(' - ')[0].trim()));
+
+  const years = records.map(r => parseInt(r.released)).filter(y => !isNaN(y));
+  const minYear = Math.min(...years);
+  const maxYear = Math.max(...years);
+
+  const formatTypes = new Set();
+  records.forEach(r => {
+    if (!r.format) return;
+    if (r.format.includes('Box Set')) { formatTypes.add('Box Set'); return; }
+    if (r.format.includes('12"')) formatTypes.add('12"');
+    if (r.format.includes('7"')) formatTypes.add('7"');
+    if (r.format.includes('LP')) formatTypes.add('LP');
+  });
+
+  statsEl.innerHTML =
+    `<span class="stat-item"><strong>${records.length}</strong> records</span>` +
+    `<span class="stat-divider">·</span>` +
+    `<span class="stat-item"><strong>${artists.size}</strong> artists</span>` +
+    `<span class="stat-divider">·</span>` +
+    `<span class="stat-item"><strong>${minYear}–${maxYear}</strong></span>` +
+    `<span class="stat-divider">·</span>` +
+    `<span class="stat-item">Formats: <strong>${[...formatTypes].join(', ')}</strong></span>`;
+}
+
+// ==== Filter Chips ====
+function renderFilterChips() {
+  const container = document.getElementById('filterChips');
+  if (!container) return;
+
+  const formatChips = [
+    { label: 'All',      value: 'all',      group: 'format' },
+    { label: 'LP',       value: 'lp',       group: 'format' },
+    { label: '7"',       value: '7"',       group: 'format' },
+    { label: '12"',      value: '12"',      group: 'format' },
+    { label: 'Box Set',  value: 'box-set',  group: 'format' },
+  ];
+
+  const decadeChips = [
+    { label: 'All Eras',    value: 'all',       group: 'decade' },
+    { label: 'Pre-1985',    value: 'pre-1985',  group: 'decade' },
+    { label: '1985–2000',   value: '1985-2000', group: 'decade' },
+    { label: '2000+',       value: '2000+',     group: 'decade' },
+  ];
+
+  container.innerHTML = '';
+
+  // Group labels
+  const formatLabel = document.createElement('span');
+  formatLabel.className = 'chip-group-label';
+  formatLabel.textContent = 'Format:';
+  container.appendChild(formatLabel);
+
+  const decadeLabel = document.createElement('span');
+  decadeLabel.className = 'chip-group-label chip-group-label--decade';
+  decadeLabel.textContent = 'Era:';
+
+  [...formatChips, null, ...decadeChips].forEach(chip => {
+    if (chip === null) {
+      const sep = document.createElement('span');
+      sep.className = 'chip-separator';
+      container.appendChild(sep);
+      container.appendChild(decadeLabel);
+      return;
+    }
+
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = chip.label;
+    btn.dataset.value = chip.value;
+    btn.dataset.group = chip.group;
+
+    const isActive = chip.group === 'format'
+      ? activeFormatFilter === chip.value
+      : activeDecadeFilter === chip.value;
+    if (isActive) btn.classList.add('active');
+
+    btn.addEventListener('click', () => {
+      if (chip.group === 'format') {
+        activeFormatFilter = chip.value;
+      } else {
+        activeDecadeFilter = chip.value;
+      }
+      container.querySelectorAll(`.chip[data-group="${chip.group}"]`).forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      renderRecords(searchInput.value);
+    });
+
+    container.appendChild(btn);
+  });
+}
+
+// ==== Random Pick ====
+const spinBtn = document.getElementById('spinBtn');
+if (spinBtn) {
+  spinBtn.addEventListener('click', () => {
+    const record = records[Math.floor(Math.random() * records.length)];
+
+    currentFeaturedRecord = record;
+    safeSetLocalStorage('featuredRecord', JSON.stringify(record));
+    renderFeaturedRecord();
+
+    // Scroll to The Pick section so the result is always visible
+    document.getElementById('featured').scrollIntoView({ behavior: 'smooth' });
+
+    // Flash the container to make the update obvious
+    const container = document.getElementById('featuredRecord');
+    container.classList.remove('pick-flash');
+    void container.offsetWidth; // force reflow so animation restarts
+    container.classList.add('pick-flash');
+    setTimeout(() => container.classList.remove('pick-flash'), 600);
+
+    // Highlight the matching card in the gallery
+    document.querySelectorAll('.record-card').forEach(c => {
+      const h3 = c.querySelector('h3');
+      c.classList.toggle('featured-card', h3 && h3.textContent === record.title);
+    });
+  });
+}
+
 // ==== Initial render on page load ====
 loadFeaturedRecord();
 renderFeaturedRecord();
+renderCollectionStats();
+renderFilterChips();
 renderRecords();
