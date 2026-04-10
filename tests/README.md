@@ -8,10 +8,10 @@ built with Playwright and pytest.
 ## What This Suite Covers
 
 | File | Type | What it tests |
-|---|---|---|
-| `test_smoke.py` | Smoke | Page load, element visibility, record count, search and sort controls |
-| `test_forms.py` | Functional | Search input, filtering, edge cases |
-| `test_e2e.py` | End-to-end | Full user journeys through the app |
+| --- | --- | --- |
+| `test_smoke.py` | Smoke | Page load, element visibility, record count, search and sort controls present |
+| `test_forms.py` | Functional | Search (partial, full, case-insensitive, edge cases), sort (alpha, year asc/desc), filter chips |
+| `test_e2e.py` | End-to-end | Featured Pick, Random Pick, search + feature flow, dark mode toggle, full user journey |
 
 ---
 
@@ -112,6 +112,10 @@ Tests follow the **testing pyramid**:
 - **End-to-end tests** simulate real user behaviour from start to finish
 
 This layered structure means failures are fast to locate and cheap to fix early.
+
+### Debounce-aware assertions
+
+The search input uses a 300 ms debounce before filtering the gallery. Tests that check card counts after filling the search input use Playwright's auto-retrying assertions (`expect().to_have_count()` / `expect().not_to_have_count()`) instead of `wait_for(state="visible")`. The latter resolves immediately against already-visible cards and fires before the debounce has a chance to re-render the gallery.
 
 ---
 

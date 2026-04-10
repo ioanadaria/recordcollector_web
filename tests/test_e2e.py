@@ -57,9 +57,9 @@ def test_featured_pick_persists_during_search(app: Page):
     """Featuring a record then running a search does not clear the featured section."""
     expected_title = feature_first_card(app)
 
-    # Search for something unrelated
+    # Search for something unrelated — wait for debounce + re-render to complete
     app.locator("#recordSearch").fill("Dragnet")
-    app.locator(".record-card").first.wait_for(state="visible")
+    expect(app.locator(".record-card")).to_have_count(1)
 
     featured_title = app.locator("#featuredRecord h3").text_content().strip()
     assert featured_title == expected_title

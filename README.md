@@ -76,8 +76,20 @@ The test suite follows the **testing pyramid** — smoke tests run first, then f
 pytest                              # full suite
 pytest tests/test_smoke.py          # smoke tests only
 pytest tests/test_e2e.py            # end-to-end tests only
-pytest tests/test_forms.py          # form and input validation
+pytest tests/test_forms.py          # search, filter, and sort validation
 ```
+
+### Test Coverage
+
+| File | Type | What it tests |
+| --- | --- | --- |
+| `test_smoke.py` | Smoke | Page load, element visibility, record count, controls present |
+| `test_forms.py` | Functional | Search (partial, full, case-insensitive, edge cases), sort, filter chips |
+| `test_e2e.py` | End-to-end | Featured Pick, Random Pick, search + feature flow, dark mode, full user journey |
+
+### Known Behaviour — Debounce
+
+The search input uses a 300 ms debounce. All search-related tests use `expect().to_have_count()` or `expect().not_to_have_count()` (Playwright's auto-retrying assertions) rather than `wait_for(state="visible")`, which would resolve before the debounce fires.
 
 ### Auto Bug Reports
 

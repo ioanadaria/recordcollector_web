@@ -9,8 +9,10 @@ def test_search_full_title_returns_one_result(app: Page):
 
 def test_search_partial_title_returns_multiple_results(app: Page):
     search = app.locator("#recordSearch")
+    total = app.locator(".record-card").count()
     search.fill("The Fall")
-    app.locator(".record-card").first.wait_for(state="visible")
+    # Wait for debounce + re-render: count must drop from total to something smaller
+    expect(app.locator(".record-card")).not_to_have_count(total)
     assert app.locator(".record-card").count() > 1
 
 
@@ -90,8 +92,10 @@ def test_search_single_character_returns_results(app: Page):
     return matching results — confirms minimum input works.
     """
     search = app.locator("#recordSearch")
+    total = app.locator(".record-card").count()
     search.fill("T")
-    app.locator(".record-card").first.wait_for(state="visible")
+    # Wait for debounce + re-render: count must drop from total to something smaller
+    expect(app.locator(".record-card")).not_to_have_count(total)
     # "T" appears in "The Fall", "The Monks" etc — expect multiple results
     assert app.locator(".record-card").count() > 1
 
